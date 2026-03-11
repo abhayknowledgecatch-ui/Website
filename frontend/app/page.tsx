@@ -2,96 +2,8 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-
-// Sample course data
-const coursesData = [
-  {
-    id: 1,
-    title: 'React Fundamentals',
-    description: 'Learn the basics of React and build interactive UIs',
-    category: 'Frontend',
-    icon: '⚛️',
-    progress: 45,
-    lessons: [
-      { id: 1, title: 'Introduction to React', duration: '15 min' },
-      { id: 2, title: 'JSX and Rendering', duration: '20 min' },
-      { id: 3, title: 'Components and Props', duration: '25 min' },
-      { id: 4, title: 'State and Hooks', duration: '30 min' },
-      { id: 5, title: 'Event Handling', duration: '20 min' },
-    ],
-  },
-  {
-    id: 2,
-    title: 'JavaScript ES6+',
-    description: 'Master modern JavaScript features and best practices',
-    category: 'Programming',
-    icon: '🚀',
-    progress: 60,
-    lessons: [
-      { id: 1, title: 'Arrow Functions', duration: '15 min' },
-      { id: 2, title: 'Destructuring', duration: '20 min' },
-      { id: 3, title: 'Promises and Async/Await', duration: '30 min' },
-      { id: 4, title: 'Modules and Imports', duration: '20 min' },
-    ],
-  },
-  {
-    id: 3,
-    title: 'Web Design with CSS',
-    description: 'Create beautiful and responsive web designs',
-    category: 'Design',
-    icon: '🎨',
-    progress: 30,
-    lessons: [
-      { id: 1, title: 'CSS Basics', duration: '20 min' },
-      { id: 2, title: 'Flexbox and Grid', duration: '30 min' },
-      { id: 3, title: 'Responsive Design', duration: '25 min' },
-      { id: 4, title: 'Animations and Transitions', duration: '25 min' },
-      { id: 5, title: 'Tailwind CSS', duration: '20 min' },
-    ],
-  },
-  {
-    id: 4,
-    title: 'Database Design',
-    description: 'Learn SQL and database fundamentals',
-    category: 'Backend',
-    icon: '🗄️',
-    progress: 75,
-    lessons: [
-      { id: 1, title: 'Relational Databases', duration: '25 min' },
-      { id: 2, title: 'SQL Queries', duration: '30 min' },
-      { id: 3, title: 'Joins and Relationships', duration: '30 min' },
-      { id: 4, title: 'Indexing and Optimization', duration: '25 min' },
-    ],
-  },
-  {
-    id: 5,
-    title: 'Node.js & Express',
-    description: 'Build backend applications with Node.js',
-    category: 'Backend',
-    icon: '🟢',
-    progress: 50,
-    lessons: [
-      { id: 1, title: 'Node.js Basics', duration: '20 min' },
-      { id: 2, title: 'Express Server Setup', duration: '25 min' },
-      { id: 3, title: 'Routing and Middleware', duration: '30 min' },
-      { id: 4, title: 'REST APIs', duration: '30 min' },
-    ],
-  },
-  {
-    id: 6,
-    title: 'TypeScript Mastery',
-    description: 'Type-safe JavaScript for large-scale applications',
-    category: 'Programming',
-    icon: '🔷',
-    progress: 20,
-    lessons: [
-      { id: 1, title: 'TypeScript Basics', duration: '20 min' },
-      { id: 2, title: 'Interfaces and Types', duration: '25 min' },
-      { id: 3, title: 'Generics', duration: '30 min' },
-      { id: 4, title: 'Advanced Types', duration: '30 min' },
-    ],
-  },
-]
+import { useRouter } from 'next/navigation'
+import { coursesData } from '@/app/lib/coursesData'
 
 interface CourseCardProps {
   course: typeof coursesData[0]
@@ -99,6 +11,7 @@ interface CourseCardProps {
 
 function CourseCard({ course }: CourseCardProps) {
   const [expanded, setExpanded] = useState(false)
+  const router = useRouter()
 
   const categoryColors: Record<string, string> = {
     Frontend: 'from-blue-500 to-indigo-600',
@@ -109,10 +22,17 @@ function CourseCard({ course }: CourseCardProps) {
 
   const categoryColor = categoryColors[course.category] || 'from-blue-500 to-indigo-600'
 
+  const handleOpenCourse = () => {
+    router.push(`/courses/${course.id}`)
+  }
+
   return (
-    <div className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100">
+    <div className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 cursor-pointer group">
       {/* Course Header with Gradient */}
-      <div className={`bg-linear-to-r ${categoryColor} p-6 text-white`}>
+      <div 
+        onClick={handleOpenCourse}
+        className={`bg-gradient-to-r ${categoryColor} p-6 text-white transition-transform duration-300 group-hover:scale-105`}
+      >
         <div className="flex items-start justify-between mb-3">
           <div className="text-5xl">{course.icon}</div>
           <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium">
@@ -158,9 +78,12 @@ function CourseCard({ course }: CourseCardProps) {
           <h4 className="font-bold text-gray-900 mb-4 text-base">Course Lessons:</h4>
           <div className="space-y-3">
             {course.lessons.map((lesson, index) => (
-              <div
+              <button
                 key={lesson.id}
-                className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg hover:bg-indigo-50 transition-colors cursor-pointer group"
+                onClick={() => {
+                  router.push(`/courses/${course.id}/${lesson.id}`)
+                }}
+                className="w-full flex items-start gap-3 p-3 bg-gray-50 rounded-lg hover:bg-indigo-50 transition-colors cursor-pointer group text-left"
               >
                 <div className="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 font-bold text-sm group-hover:bg-indigo-200">
                   {index + 1}
@@ -171,10 +94,14 @@ function CourseCard({ course }: CourseCardProps) {
                   </p>
                   <p className="text-xs text-gray-500 mt-1">⏱️ {lesson.duration}</p>
                 </div>
-              </div>
+              </button>
             ))}
           </div>
-          <button className="w-full mt-4 py-2 px-4 bg-linear-to-r from-blue-500 to-indigo-600 text-white font-medium rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-200 transform hover:scale-105">
+          <button 
+            onClick={() => {
+              router.push(`/courses/${course.id}`)
+            }}
+            className="w-full mt-4 py-2 px-4 bg-linear-to-r from-blue-500 to-indigo-600 text-white font-medium rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-200 transform hover:scale-105">
             Start Course
           </button>
         </div>
