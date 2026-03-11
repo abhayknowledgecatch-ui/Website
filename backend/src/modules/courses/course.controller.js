@@ -1,0 +1,2 @@
+// course controller
+module.exports = {};

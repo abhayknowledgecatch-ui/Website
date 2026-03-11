@@ -64,7 +64,10 @@ function CourseCard({ course }: CourseCardProps) {
             <span className="font-bold text-gray-900">{course.lessons.length}</span> Lessons
           </span>
           <button
-            onClick={() => setExpanded(!expanded)}
+            onClick={(e) => {
+              e.stopPropagation();
+              setExpanded(!expanded);
+            }}
             className="text-indigo-600 hover:text-indigo-700 font-medium text-sm transition-colors"
           >
             {expanded ? 'Hide' : 'View'} Lessons
@@ -80,7 +83,8 @@ function CourseCard({ course }: CourseCardProps) {
             {course.lessons.map((lesson, index) => (
               <button
                 key={lesson.id}
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   router.push(`/courses/${course.id}/${lesson.id}`)
                 }}
                 className="w-full flex items-start gap-3 p-3 bg-gray-50 rounded-lg hover:bg-indigo-50 transition-colors cursor-pointer group text-left"
@@ -98,7 +102,8 @@ function CourseCard({ course }: CourseCardProps) {
             ))}
           </div>
           <button 
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation();
               router.push(`/courses/${course.id}`)
             }}
             className="w-full mt-4 py-2 px-4 bg-linear-to-r from-blue-500 to-indigo-600 text-white font-medium rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-200 transform hover:scale-105">

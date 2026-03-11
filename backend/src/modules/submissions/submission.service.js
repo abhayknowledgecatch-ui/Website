@@ -1,0 +1,2 @@
+// submission service
+module.exports = {};

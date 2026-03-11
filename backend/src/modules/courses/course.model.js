@@ -1,0 +1,2 @@
+// course model
+module.exports = {};

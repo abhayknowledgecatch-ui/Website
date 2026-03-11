@@ -1,0 +1,2 @@
+// xp model
+module.exports = {};

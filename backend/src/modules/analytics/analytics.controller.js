@@ -1,0 +1,2 @@
+// analytics controller
+module.exports = {};

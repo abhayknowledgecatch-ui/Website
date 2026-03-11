@@ -1,0 +1,2 @@
+// analytics model
+module.exports = {};

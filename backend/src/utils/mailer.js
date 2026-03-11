@@ -1,0 +1,2 @@
+// mailer helper
+module.exports = {};

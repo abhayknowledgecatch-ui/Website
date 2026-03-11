@@ -46,7 +46,7 @@ export default function CoursePage() {
           <div className="flex items-center justify-between">
             <h1 className="text-2xl font-bold text-gray-900">KnowledgeCatch</h1>
             <button
-              onClick={() => window.close()}
+              onClick={() => router.push('/')}
               className="px-4 py-2 text-gray-600 hover:text-gray-900 transition-colors font-medium"
             >
               ✕ Close

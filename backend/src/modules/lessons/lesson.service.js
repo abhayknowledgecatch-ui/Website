@@ -1,0 +1,2 @@
+// lesson service
+module.exports = {};

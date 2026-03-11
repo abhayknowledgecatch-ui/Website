@@ -1,0 +1,2 @@
+// lesson model
+module.exports = {};

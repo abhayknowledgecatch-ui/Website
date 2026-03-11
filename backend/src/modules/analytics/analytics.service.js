@@ -1,0 +1,2 @@
+// analytics service
+module.exports = {};

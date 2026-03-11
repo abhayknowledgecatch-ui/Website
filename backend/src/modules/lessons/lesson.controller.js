@@ -1,0 +1,2 @@
+// lesson controller
+module.exports = {};
